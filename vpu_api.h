@@ -139,28 +139,51 @@ typedef enum VPU_API_ERR{
 
 typedef struct EncParameter
 {
-   int width;
-   int height;
-   int rc_mode;
-   int bitRate;
-   int framerate;
-   int  qp;
-   int  enableCabac;
-   int  cabacInitIdc;
-   int  format;
-   int	intraPicRate;
-   int  framerateout;
-   int  profileIdc;
-   int  levelIdc;
-   int	reserved[3];
+    union {
+        struct {
+            int width;
+            int height;
+            int rc_mode;
+            int bitRate;
+            int framerate;
+            int qp;
+            int enableCabac;
+            int cabacInitIdc;
+            int format;
+            int intraPicRate;
+            int framerateout;
+            int profileIdc;
+            int levelIdc;
+            int reserved0[3];
+        };
+
+        struct {
+            int reserved1[13];
+            int reserved[3];
+        };
+    };
 }EncParameter_t;
 
 
 typedef struct EXtraCfg {
-    RK_S32 vc1extra_size;
-    RK_S32 vp6codeid;
-    RK_S32 tsformat;
-    RK_U32 reserved[20];
+    union {
+        struct {
+            RK_S32 vc1extra_size;
+            RK_S32 vp6codeid;
+            RK_S32 tsformat;
+            RK_U32 ori_vpu; /* use origin vpu framework */
+            /* below used in decode */
+            RK_U32 mpp_mode;     /* use mpp framework */
+            RK_U32 bit_depth;    /* 8 or 10 bit */
+            RK_U32 yuv_format;   /* 0:420 1:422 2:444 */
+            RK_U32 reserved0[16];
+        };
+
+        struct {
+            RK_U32 reserved1[3];
+            RK_U32 reserved[20];
+        };
+    };
 }EXtraCfg_t;
 /**
  * @addtogroup rk_vpu_codec
