@@ -33,6 +33,8 @@
 #include <unistd.h>
 
 #include <cutils/log.h>
+
+#undef LOG_TAG
 #define LOG_TAG "vpu_mem_observer"
 
 #define SUN_LEN(ptr) ((size_t) (((struct sockaddr_un *) 0)->sun_path) \
