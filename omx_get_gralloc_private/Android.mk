@@ -6,6 +6,9 @@ LOCAL_MODULE := libgralloc_priv_omx
 LOCAL_MODULE_TAGS := optional
 LOCAL_PROPRIETARY_MODULE := true
 
+LOCAL_HEADER_LIBRARIES += \
+	liblog_headers
+
 LOCAL_C_INCLUDES := \
 	$(TOP)/hardware/rockchip/libgralloc \
 	$(TOP)/hardware/libhardware/include 
