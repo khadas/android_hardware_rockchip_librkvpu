@@ -31,8 +31,9 @@ LOCAL_HEADER_LIBRARIES += \
 	liblog_headers
 
 LOCAL_C_INCLUDES := \
-	$(TOP)/hardware/rockchip/libgralloc \
-	$(TOP)/hardware/libhardware/include 
+	hardware/rockchip/libgralloc \
+	hardware/libhardware/include \
+	system/core/liblog/include
 
 ifeq ($(strip $(GRAPHIC_MEMORY_PROVIDER)),dma_buf)
 	LOCAL_CFLAGS += -DUSE_DMA_BUF

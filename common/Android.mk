@@ -34,7 +34,7 @@ ifneq ($(filter rk3366 rk3399 rk3228 rk3328 rk3229 rk3128h rk322x rk3399pro rk32
 USE_MPP := true
 endif
 
-ifeq (1, $(strip $(shell expr $(PLATFORM_VERSION) \>= 7.0)))
+ifeq (1, $(strip $(shell expr $(PLATFORM_SDK_VERSION) \>= 24)))
   ifneq ($(filter rk3288 rk3126c rk3368 rk3326, $(strip $(TARGET_BOARD_PLATFORM))), )
     USE_MPP := true
   endif
