@@ -31,9 +31,31 @@ LOCAL_HEADER_LIBRARIES += \
 	liblog_headers
 
 LOCAL_C_INCLUDES := \
-	hardware/rockchip/libgralloc \
 	hardware/libhardware/include \
 	system/core/liblog/include
+
+# API 29 -> Android 10.0
+ifneq (1,$(strip $(shell expr $(PLATFORM_SDK_VERSION) \< 29)))
+
+ifeq ($(strip $(TARGET_BOARD_PLATFORM_GPU)), mali-tDVx)
+LOCAL_C_INCLUDES += \
+	hardware/rockchip/libgralloc/bifrost
+endif
+
+ifneq (,$(filter mali-t860 mali-t760, $(TARGET_BOARD_PLATFORM_GPU)))
+LOCAL_C_INCLUDES += \
+	hardware/rockchip/libgralloc/midgard
+endif
+
+ifneq (,$(filter mali400 mali450, $(TARGET_BOARD_PLATFORM_GPU)))
+LOCAL_C_INCLUDES += \
+	hardware/rockchip/libgralloc/utgard
+endif
+else
+LOCAL_C_INCLUDES += \
+        hardware/rockchip/libgralloc
+
+endif
 
 ifeq ($(strip $(GRAPHIC_MEMORY_PROVIDER)),dma_buf)
 	LOCAL_CFLAGS += -DUSE_DMA_BUF
