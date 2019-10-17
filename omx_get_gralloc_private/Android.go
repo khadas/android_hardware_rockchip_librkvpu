@@ -38,6 +38,8 @@ func globalIncludeDefaults(ctx android.BaseContext) ([]string) {
         include_dirs = append(include_dirs,"hardware/rockchip/libgralloc/midgard")
     } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali400") || strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali450")) {
         include_dirs = append(include_dirs,"hardware/rockchip/libgralloc/utgard")
+    } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
+        fmt.Println("G6110 don't contains hardware/rockchip/libgralloc!");
     } else {
         include_dirs = append(include_dirs,"hardware/rockchip/libgralloc")
     }
