@@ -5,6 +5,7 @@ import (
     "android/soong/cc"
     "fmt"
     "strings"
+    "strconv"
 )
 
 func init() {
@@ -32,17 +33,27 @@ func Defaults(ctx android.LoadHookContext) {
 
 func globalIncludeDefaults(ctx android.BaseContext) ([]string) {
     var include_dirs []string
-    if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-tDVx")) {
-        include_dirs = append(include_dirs,"hardware/rockchip/libgralloc/bifrost")
-    } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t860") || strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t760")) {
-        include_dirs = append(include_dirs,"hardware/rockchip/libgralloc/midgard")
-    } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali400") || strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali450")) {
-        include_dirs = append(include_dirs,"hardware/rockchip/libgralloc/utgard")
-    } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
-        fmt.Println("G6110 don't contains hardware/rockchip/libgralloc!");
+    version, err := strconv.Atoi(ctx.Config().PlatformSdkVersion())
+    if (err == nil && version < 29 ) {
+        if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
+            fmt.Println("G6110 don't contains hardware/rockchip/libgralloc!");
+        } else {
+           include_dirs = append(include_dirs,"hardware/rockchip/libgralloc")
+        }
     } else {
-        include_dirs = append(include_dirs,"hardware/rockchip/libgralloc")
+        if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-tDVx")) {
+            include_dirs = append(include_dirs,"hardware/rockchip/libgralloc/bifrost")
+        } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t860") || strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t760")) {
+            include_dirs = append(include_dirs,"hardware/rockchip/libgralloc/midgard")
+        } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali400") || strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali450")) {
+            include_dirs = append(include_dirs,"hardware/rockchip/libgralloc/utgard")
+        } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
+            fmt.Println("G6110 don't contains hardware/rockchip/libgralloc!");
+        } else {
+            include_dirs = append(include_dirs,"hardware/rockchip/libgralloc")
+        }
     }
+    fmt.Println(include_dirs, ctx.Config().PlatformSdkVersion())
     return include_dirs
 
 }
