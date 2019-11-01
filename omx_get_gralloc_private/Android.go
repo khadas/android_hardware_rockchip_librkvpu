@@ -65,12 +65,15 @@ func globalCflagsDefaults(ctx android.BaseContext) ([]string) {
         //添加 DEBUG 宏定义
         cppflags = append(cppflags,"-DMALI_PRODUCT_ID_T72X=1")
         cppflags = append(cppflags,"-DMALI_AFBC_GRALLOC=0")
+	cppflags = append(cppflags,"-DUSE_DRM")
     } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t760")) {
         cppflags = append(cppflags,"-DMALI_PRODUCT_ID_T76X=1")
         cppflags = append(cppflags,"-DMALI_AFBC_GRALLOC=1")
+	cppflags = append(cppflags,"-DUSE_DRM")
     } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t860")) {
         cppflags = append(cppflags,"-DMALI_PRODUCT_ID_T86X=1")
         cppflags = append(cppflags,"-DMALI_AFBC_GRALLOC=1")
+	cppflags = append(cppflags,"-DUSE_DRM")
     } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
         cppflags = append(cppflags,"-DGPU_G6110")
     }

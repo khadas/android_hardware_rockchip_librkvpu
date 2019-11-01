@@ -77,7 +77,9 @@ LOCAL_CFLAGS += -DMALI_AFBC_GRALLOC=1
 endif
 
 ifeq ($(strip $(TARGET_BOARD_PLATFORM_GPU)),G6110)
-	LOCAL_CFLAGS += -DGPU_G6110
+LOCAL_CFLAGS += -DGPU_G6110
+LOCAL_C_INCLUDES += \
+        system/core/libion/original-kernel-headers
 endif
 
 ifeq ($(strip $(BOARD_USE_DRM)), true)
