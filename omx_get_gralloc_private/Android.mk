@@ -37,7 +37,7 @@ LOCAL_C_INCLUDES := \
 # API 29 -> Android 10.0
 ifneq (1,$(strip $(shell expr $(PLATFORM_SDK_VERSION) \< 29)))
 
-ifeq ($(strip $(TARGET_BOARD_PLATFORM_GPU)), mali-tDVx)
+ifneq (,$(filter mali-tDVx mali-G52, $(TARGET_BOARD_PLATFORM_GPU)))
 LOCAL_C_INCLUDES += \
 	hardware/rockchip/libgralloc/bifrost
 endif
@@ -83,11 +83,10 @@ LOCAL_C_INCLUDES += \
 endif
 
 ifeq ($(strip $(BOARD_USE_DRM)), true)
-ifneq ($(filter rk3399 rk3366 rk3288 rk3128h rk322x rk3126c rk3328 rk3326 rk3399pro rk3228h, $(strip $(TARGET_BOARD_PLATFORM))), )
-        LOCAL_CFLAGS += -DUSE_DRM -DRK_DRM_GRALLOC=1 -DMALI_AFBC_GRALLOC=1
-
+ifneq ($(filter rk3399 rk3366 rk3288 rk3566A rk3128h rk322x rk3126c rk3328 rk3326 rk3399pro rk3228h, $(strip $(TARGET_BOARD_PLATFORM))), )
+    LOCAL_CFLAGS += -DUSE_DRM -DRK_DRM_GRALLOC=1 -DMALI_AFBC_GRALLOC=1
 ifeq ($(TARGET_USES_HWC2),true)
-	LOCAL_CFLAGS += -DUSE_HWC2
+    LOCAL_CFLAGS += -DUSE_HWC2
 endif
 
 endif

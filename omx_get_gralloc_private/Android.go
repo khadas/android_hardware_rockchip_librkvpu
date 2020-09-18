@@ -41,7 +41,7 @@ func globalIncludeDefaults(ctx android.BaseContext) ([]string) {
            include_dirs = append(include_dirs,"hardware/rockchip/libgralloc")
         }
     } else {
-        if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-tDVx")) {
+        if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-tDVx") || strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-G52")) {
             include_dirs = append(include_dirs,"hardware/rockchip/libgralloc/bifrost")
         } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t860") || strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t760")) {
             include_dirs = append(include_dirs,"hardware/rockchip/libgralloc/midgard")
