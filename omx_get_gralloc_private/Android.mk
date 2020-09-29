@@ -83,7 +83,7 @@ LOCAL_C_INCLUDES += \
 endif
 
 ifeq ($(strip $(BOARD_USE_DRM)), true)
-ifneq ($(filter rk3399 rk3366 rk3288 rk3566A rk3128h rk322x rk3126c rk3328 rk3326 rk3399pro rk3228h, $(strip $(TARGET_BOARD_PLATFORM))), )
+ifneq ($(filter rk3399 rk3366 rk3288 rk356x rk3128h rk322x rk3126c rk3328 rk3326 rk3399pro rk3228h, $(strip $(TARGET_BOARD_PLATFORM))), )
     LOCAL_CFLAGS += -DUSE_DRM -DRK_DRM_GRALLOC=1 -DMALI_AFBC_GRALLOC=1
 ifeq ($(TARGET_USES_HWC2),true)
     LOCAL_CFLAGS += -DUSE_HWC2
