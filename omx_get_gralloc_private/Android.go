@@ -22,13 +22,41 @@ func DefaultsFactory() (android.Module) {
 
 func Defaults(ctx android.LoadHookContext) {
     type props struct {
+        Srcs []string
         Cflags []string
+        Shared_libs []string
         Include_dirs []string
     }
     p := &props{}
     p.Cflags = globalCflagsDefaults(ctx)
     p.Include_dirs = globalIncludeDefaults(ctx)
+    p.Srcs = getSrcs(ctx)
+    p.Shared_libs = getSharedLibs(ctx)
+
     ctx.AppendProperties(p)
+}
+
+
+func getSharedLibs(ctx android.BaseContext) ([]string) {
+    var libs []string
+    if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_RK_GRALLOC_VERSION"),"4") ) {
+        libs = append(libs, "libgralloctypes")
+        libs = append(libs, "libhidlbase")
+        libs = append(libs, "libsync")
+        libs = append(libs, "android.hardware.graphics.mapper@4.0")
+    }
+    return libs
+}
+
+func getSrcs(ctx android.BaseContext) ([]string) {
+    var src []string
+    sdkVersion := ctx.AConfig().PlatformSdkVersionInt()
+    if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_RK_GRALLOC_VERSION"),"4") ) {
+        if (sdkVersion >= 30 ) {
+            src = append(src, "platform_gralloc4.cpp")
+        }
+    }
+    return src
 }
 
 func globalIncludeDefaults(ctx android.BaseContext) ([]string) {
@@ -53,6 +81,12 @@ func globalIncludeDefaults(ctx android.BaseContext) ([]string) {
             include_dirs = append(include_dirs,"hardware/rockchip/libgralloc")
         }
     }
+    if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_RK_GRALLOC_VERSION"),"4") ) {
+        include_dirs = append(include_dirs, "frameworks/native/include")
+        include_dirs = append(include_dirs, "system/core/libsync")
+        include_dirs = append(include_dirs, "system/core/libsync/include")
+        include_dirs = append(include_dirs, "external/libdrm/include/drm")
+    }
     fmt.Println(include_dirs, ctx.Config().PlatformSdkVersion())
     return include_dirs
 
@@ -76,7 +110,10 @@ func globalCflagsDefaults(ctx android.BaseContext) ([]string) {
     if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
         cppflags = append(cppflags,"-DGPU_G6110")
     } else {
-	cppflags = append(cppflags,"-DUSE_DRM")
+        cppflags = append(cppflags,"-DUSE_DRM")
+    }
+    if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_RK_GRALLOC_VERSION"),"4") ) {
+        cppflags = append(cppflags,"-DUSE_GRALLOC_4")
     }
     //将需要区分的环境变量在此区域添加 //....
     return cppflags

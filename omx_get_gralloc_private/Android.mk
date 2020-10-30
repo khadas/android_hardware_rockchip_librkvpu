@@ -21,18 +21,38 @@
 
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
-LOCAL_SRC_FILES := gralloc_priv_omx.cpp
-LOCAL_SHARED_LIBRARIES := liblog libutils 
+LOCAL_SRC_FILES := \
+    gralloc_priv_omx.cpp
+LOCAL_SHARED_LIBRARIES := \
+    liblog \
+    libutils
+
 LOCAL_MODULE := libgralloc_priv_omx
 LOCAL_MODULE_TAGS := optional
 LOCAL_PROPRIETARY_MODULE := true
-
+LOCAL_CFLAGS += -Wno-unused-parameter -Wno-unused-variable
 LOCAL_HEADER_LIBRARIES += \
 	liblog_headers
 
 LOCAL_C_INCLUDES := \
 	hardware/libhardware/include \
 	system/core/liblog/include
+
+ifeq ($(TARGET_RK_GRALLOC_VERSION), 4)
+LOCAL_SRC_FILES += \
+    platform_gralloc4.cpp
+LOCAL_SHARED_LIBRARIES += \
+    libsync \
+    libhidlbase \
+    libgralloctypes \
+    android.hardware.graphics.mapper@4.0
+LOCAL_C_INCLUDES := \
+	frameworks/native/include \
+	system/core/libsync \
+	system/core/libsync/include\
+	external/libdrm/include/drm
+LOCAL_CFLAGS += -DUSE_GRALLOC_4
+endif
 
 # API 29 -> Android 10.0
 ifneq (1,$(strip $(shell expr $(PLATFORM_SDK_VERSION) \< 29)))
@@ -93,5 +113,3 @@ endif
 endif
 
 include $(BUILD_SHARED_LIBRARY)
-
-

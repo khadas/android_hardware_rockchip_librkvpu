@@ -48,5 +48,5 @@ cc_library_shared {
         "libutils",
     ],
 
-    cflags:["-DRK_DRM_GRALLOC=1"] + ["-DMALI_AFBC_GRALLOC=1"],
+    cflags:["-DRK_DRM_GRALLOC=1"] + ["-DMALI_AFBC_GRALLOC=1"] + ["-Wno-unused-parameter"] + ["-Wno-unused-variable"],
 }
