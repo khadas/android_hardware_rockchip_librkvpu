@@ -66,7 +66,7 @@ func globalIncludeDefaults(ctx android.BaseContext) ([]string) {
         if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
             fmt.Println("G6110 don't contains hardware/rockchip/libgralloc!");
         } else {
-           include_dirs = append(include_dirs,"hardware/rockchip/libgralloc")
+            include_dirs = append(include_dirs,"hardware/rockchip/libgralloc")
         }
     } else {
         if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-tDVx") || strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-G52")) {
@@ -94,27 +94,14 @@ func globalIncludeDefaults(ctx android.BaseContext) ([]string) {
 
 func globalCflagsDefaults(ctx android.BaseContext) ([]string) {
     var cppflags []string
-    //该打印输出为: TARGET_PRODUCT:rk3328 fmt.Println("TARGET_PRODUCT:",ctx.AConfig().Getenv("TARGET_PRODUCT")) //通过 strings.EqualFold 比较字符串，可参考go语言字符串对比
-    if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t720")) {
-        //添加 DEBUG 宏定义
-        cppflags = append(cppflags,"-DMALI_PRODUCT_ID_T72X=1")
-        cppflags = append(cppflags,"-DMALI_AFBC_GRALLOC=0")
-    } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t760")) {
-        cppflags = append(cppflags,"-DMALI_PRODUCT_ID_T76X=1")
-        cppflags = append(cppflags,"-DMALI_AFBC_GRALLOC=1")
-    } else if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"mali-t860")) {
-        cppflags = append(cppflags,"-DMALI_PRODUCT_ID_T86X=1")
-        cppflags = append(cppflags,"-DMALI_AFBC_GRALLOC=1")
-    }
-
-    if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
-        cppflags = append(cppflags,"-DGPU_G6110")
-    } else {
-        cppflags = append(cppflags,"-DUSE_DRM")
-    }
     if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_RK_GRALLOC_VERSION"),"4") ) {
         cppflags = append(cppflags,"-DUSE_GRALLOC_4")
+    } else {
+        if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
+            cppflags = append(cppflags,"-DGPU_G6110")
+        } else {
+            cppflags = append(cppflags,"-DUSE_DRM")
+        }
     }
-    //将需要区分的环境变量在此区域添加 //....
     return cppflags
 }
