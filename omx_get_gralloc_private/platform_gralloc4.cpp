@@ -376,10 +376,10 @@ int get_byte_stride(buffer_handle_t handle, int* byte_stride)
             return err;
         }
 
-        if ( layouts.size() > 1 )
+        /*if ( layouts.size() > 1 )
         {
             W("it's not reasonable to get global byte_stride of buffer with planes more than 1.");
-        }
+        }*/
 
         *byte_stride = (layouts[0].strideInBytes);
     }
