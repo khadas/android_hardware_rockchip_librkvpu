@@ -48,7 +48,7 @@ int32_t Rockchip_get_gralloc_private(uint32_t *handle,gralloc_private_handle_t *
     }
 #ifdef USE_GRALLOC_4
     private_handle_t priv_hnd = (private_handle_t)handle;
-    int format_requested, share_fd, byte_stride,err;
+    int format_requested, share_fd, pixel_stride,err;
     uint64_t allocation_size;
     err = gralloc4::get_format_requested(priv_hnd, &format_requested);
     if (err != android::OK )
@@ -66,13 +66,13 @@ int32_t Rockchip_get_gralloc_private(uint32_t *handle,gralloc_private_handle_t *
     }else{
         private_hnd->share_fd = share_fd;
     }
-    err = gralloc4::get_byte_stride(priv_hnd, &byte_stride);
+    err = gralloc4::get_pixel_stride(priv_hnd, &pixel_stride);
     if (err != android::OK )
     {
-        E("get_byte_stride err : %d", err);
+        E("get_pixel_stride err : %d", err);
         //return err;
     }else{
-        private_hnd->stride = byte_stride;
+        private_hnd->stride = pixel_stride;
     }
     err = gralloc4::get_allocation_size(priv_hnd, &allocation_size);
     if (err != android::OK )
