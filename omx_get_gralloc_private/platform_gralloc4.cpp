@@ -329,7 +329,15 @@ int get_pixel_stride(buffer_handle_t handle, int* pixel_stride)
             W("it's not reasonable to get global pixel_stride of buffer with planes more than 1.");
         }
 
-        *pixel_stride = (layouts[0].widthInSamples);
+        if ( 0 == layouts[0].sampleIncrementInBits )
+        {
+            E("sampleIncrementInBits is 0, unexpected.");
+            return -1;
+        }
+        else
+        {
+            *pixel_stride = layouts[0].strideInBytes * 8 / layouts[0].sampleIncrementInBits;
+        }
     }
     /* 否则, 即 'format_requested' "是" HAL_PIXEL_FORMAT_YCrCb_NV12_10, 则 ... */
     else
