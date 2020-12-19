@@ -324,10 +324,10 @@ int get_pixel_stride(buffer_handle_t handle, int* pixel_stride)
             return err;
         }
 
-        if ( layouts.size() > 1 )
+        /*if ( layouts.size() > 1 )
         {
             W("it's not reasonable to get global pixel_stride of buffer with planes more than 1.");
-        }
+        }*/
 
         if ( 0 == layouts[0].sampleIncrementInBits )
         {
