@@ -139,29 +139,20 @@ typedef enum VPU_API_ERR{
 
 typedef struct EncParameter
 {
-    union {
-        struct {
-            int width;
-            int height;
-            int rc_mode;
-            int bitRate;
-            int framerate;
-            int qp;
-            int enableCabac;
-            int cabacInitIdc;
-            int format;
-            int intraPicRate;
-            int framerateout;
-            int profileIdc;
-            int levelIdc;
-            int reserved0[3];
-        };
-
-        struct {
-            int reserved1[13];
-            int reserved[3];
-        };
-    };
+    int width;
+    int height;
+    int rc_mode;
+    int bitRate;
+    int framerate;
+    int qp;
+    int enableCabac;
+    int cabacInitIdc;
+    int format;
+    int intraPicRate;
+    int framerateout;
+    int profileIdc;
+    int levelIdc;
+    int reserved[3];
 }EncParameter_t;
 
 
