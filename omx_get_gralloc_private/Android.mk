@@ -32,7 +32,8 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_PROPRIETARY_MODULE := true
 LOCAL_CFLAGS += -Wno-unused-parameter -Wno-unused-variable
 LOCAL_HEADER_LIBRARIES += \
-	liblog_headers
+	liblog_headers \
+	libhardware_rockchip_headers
 
 LOCAL_C_INCLUDES := \
 	hardware/libhardware/include \

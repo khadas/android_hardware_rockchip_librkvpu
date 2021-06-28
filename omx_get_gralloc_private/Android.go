@@ -5,7 +5,6 @@ import (
     "android/soong/cc"
     "fmt"
     "strings"
-    "strconv"
 )
 
 func init() {
@@ -50,7 +49,7 @@ func getSharedLibs(ctx android.BaseContext) ([]string) {
 
 func getSrcs(ctx android.BaseContext) ([]string) {
     var src []string
-    sdkVersion := ctx.AConfig().PlatformSdkVersionInt()
+    sdkVersion := ctx.AConfig().PlatformSdkVersion().FinalOrFutureInt()
     if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_RK_GRALLOC_VERSION"),"4") ) {
         if (sdkVersion >= 30 ) {
             src = append(src, "platform_gralloc4.cpp")
@@ -61,8 +60,8 @@ func getSrcs(ctx android.BaseContext) ([]string) {
 
 func globalIncludeDefaults(ctx android.BaseContext) ([]string) {
     var include_dirs []string
-    version, err := strconv.Atoi(ctx.Config().PlatformSdkVersion())
-    if (err == nil && version < 29 ) {
+    version := ctx.Config().PlatformSdkVersion().FinalOrFutureInt()
+    if (version < 29 ) {
         if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
             fmt.Println("G6110 don't contains hardware/rockchip/libgralloc!");
         } else {

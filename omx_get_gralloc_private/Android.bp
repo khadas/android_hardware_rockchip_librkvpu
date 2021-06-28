@@ -29,7 +29,9 @@ cc_library_shared {
 
     header_libs: [
         "liblog_headers",
+        "libhardware_rockchip_headers",
     ],
+
     srcs: [
         "gralloc_priv_omx.cpp",
     ],

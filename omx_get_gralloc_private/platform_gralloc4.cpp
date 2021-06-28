@@ -59,6 +59,8 @@
 #include "src/mali_gralloc_formats.h"
 #include <drm_fourcc.h>
 
+#include <hardware/hardware_rockchip.h>
+
 #include "platform_gralloc4.h"
 
 #include <android/hardware/graphics/mapper/4.0/IMapper.h>
