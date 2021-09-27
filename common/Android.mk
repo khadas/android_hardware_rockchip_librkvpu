@@ -29,59 +29,7 @@ BUILD_VPU_MEM_DUMP := false
 BUILD_VPU_POOL_TEST := false
 
 # use new vpu framework mpp
-USE_MPP := false
-ifneq ($(filter rk3366 rk356x rk3399 rk3228 rk3328 rk3229 rk3128h rk322x rk3399pro rk3228h rk3326, $(strip $(TARGET_BOARD_PLATFORM))), )
 USE_MPP := true
-endif
-
-ifeq (1, $(strip $(shell expr $(PLATFORM_SDK_VERSION) \>= 24)))
-  ifneq ($(filter rk3288 rk3126c rk3368 rk3326, $(strip $(TARGET_BOARD_PLATFORM))), )
-    USE_MPP := true
-  endif
-endif
-
-ifeq ($(USE_MPP), false)
-
-include $(CLEAR_VARS)
-LOCAL_MODULE := libvpu
-ifeq ($(PLATFORM_VERSION),4.0.4)
-	LOCAL_CFLAGS := -DAVS40 \
-	-Wno-multichar 
-else
-	LOCAL_CFLAGS += -Wno-multichar 
-endif
-# end use vpu framework mpp
-
-LOCAL_ARM_MODE := arm
-LOCAL_PROPRIETARY_MODULE := true
-
-LOCAL_PRELINK_MODULE := false
-
-
-LOCAL_SHARED_LIBRARIES := libcutils libion liblog
-LOCAL_STATIC_LIBRARIES := #ibion_vpu #libvpu_mem_pool
-
-LOCAL_C_INCLUDES := $(LOCAL_PATH) \
-		    $(LOCAL_PATH)/.. \
-		    $(LOCAL_PATH)/include \
-		    $(LOCAL_PATH)/libvpu_mem_pool \
-		    $(TOP)/hardware/libhardware/include \
-
-LOCAL_C_INCLUDES += \
-    system/memory/libion/include \
-    system/memory/libion/kernel-headers
-
-LOCAL_SRC_FILES := vpu_mem_dmabuf.c \
-				   rk_list.cpp \
-				   vpu_mem_pool/vpu_mem_pool.c \
-				   vpu_mem_pool/vpu_dma_buf.c \
-				   vpu.c \
-				   vpu_mem_pool/tsemaphore.c	\
-				   ppOp.cpp
-
-LOCAL_MODULE_TAGS := optional
-include $(BUILD_SHARED_LIBRARY)
-endif
 
 ifeq ($(BUILD_VPU_MEM_TEST),true)
 include $(CLEAR_VARS)
