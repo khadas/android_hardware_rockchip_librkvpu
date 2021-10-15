@@ -35,7 +35,6 @@
 #define private_handle_t gralloc_drm_handle_t
 #elif defined (USE_GRALLOC_4)
 #include "platform_gralloc4.h"
-#include "src/mali_gralloc_formats.h"
 #include "custom_log.h"
 #define private_handle_t buffer_handle_t
 #else
