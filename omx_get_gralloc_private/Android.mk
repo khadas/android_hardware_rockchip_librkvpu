@@ -37,7 +37,8 @@ LOCAL_HEADER_LIBRARIES += \
 
 LOCAL_C_INCLUDES := \
 	hardware/libhardware/include \
-	system/core/liblog/include
+	system/core/liblog/include \
+	hardware/rockchip/libgralloc
 
 ifeq ($(TARGET_RK_GRALLOC_VERSION),4)
 LOCAL_SRC_FILES += \
@@ -61,7 +62,10 @@ ifeq ($(TARGET_USES_HWC2),true)
     LOCAL_CFLAGS += -DUSE_HWC2
 endif
 endif
+ifneq ($(filter rk3528, $(strip $(TARGET_BOARD_PLATFORM))), )
+    LOCAL_CFLAGS += -DUSE_DMABUFHEAP_BASED_0_3_GRALLOC
 endif
+endif # ifeq ($(strip $(BOARD_USE_DRM)), true)
 endif
 
 # API 29 -> Android 10.0

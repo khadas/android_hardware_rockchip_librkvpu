@@ -95,7 +95,13 @@ int32_t Rockchip_get_gralloc_private(uint32_t *handle,gralloc_private_handle_t *
     #else
         private_hnd->share_fd = priv_hnd->share_fd;
     #endif 
+
+#ifdef USE_DMABUFHEAP_BASED_0_3_GRALLOC
+    private_hnd->type = 0;
+#else
     private_hnd->type = priv_hnd->type;
+#endif
+
     private_hnd->stride = priv_hnd->stride;
 #endif
     private_hnd->size = priv_hnd->size;

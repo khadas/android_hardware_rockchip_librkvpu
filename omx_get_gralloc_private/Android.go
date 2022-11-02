@@ -111,6 +111,8 @@ func globalCflagsDefaults(ctx android.BaseContext) ([]string) {
     } else {
         if (strings.EqualFold(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM_GPU"),"G6110")) {
             cppflags = append(cppflags,"-DGPU_G6110")
+        } else if (strings.Contains(ctx.AConfig().Getenv("TARGET_BOARD_PLATFORM"), "rk3528")) {
+            cppflags = append(cppflags,"-DUSE_DMABUFHEAP_BASED_0_3_GRALLOC")
         } else {
             cppflags = append(cppflags,"-DUSE_DRM")
         }
